@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 export interface CardInterface {
     id: number;
     name: string;
@@ -13,9 +15,10 @@ interface Props {
 
 const Card: React.FC<Props> = (props) => {
     const {data} = props;
+    const navigate = useNavigate();
   return (
-    <a
-      href={"listing/" + data.id}
+    <button
+      onClick={() => { navigate("listing/" + data.id)}}
       className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg"
     >
       <img src={data.image} alt="property" className="w-full max-w-sm h-60" />
@@ -25,7 +28,7 @@ const Card: React.FC<Props> = (props) => {
         </div>
         <div className=" text-xs mb-2">{data.description}</div>
       </div>
-    </a>
+    </button>
   );
 };
 

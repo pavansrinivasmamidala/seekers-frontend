@@ -5,11 +5,14 @@ import Register from "./Components/Register";
 import NavBar from "./Components/NavBar";
 import Home from "./Components/Home";
 import ListingDetails from "./Components/ListingDetails";
+import { AuthProvider } from "./store/AuthContext";
 
 function App() {
 
   return (
     <>
+    <AuthProvider>
+
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -17,6 +20,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="/listing/:id" element={<ListingDetails />} />
       </Routes>
+    </AuthProvider>
     </>
   );
 }

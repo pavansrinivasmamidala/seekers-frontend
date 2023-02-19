@@ -1,5 +1,7 @@
 import axios from "axios";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../store/AuthContext";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -9,6 +11,8 @@ export default function Register() {
     passwordConfirmation: "",
   });
   const [error,setError] = useState("");
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -20,14 +24,22 @@ export default function Register() {
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     if (formData.password !== formData.passwordConfirmation) {
-      console.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
     axios
-      .post("http://localhost:3000/api/signup", formData)
-      .then((response) => {
-        console.log(response);
-        setError("Passwords do not match");
+      .post("http://localhost:5500/api/register", formData)
+      .then((res) => {
+        console.log(res);
+        if(res.data?.name ){
+
+          const { name, email } = res.data;
+          authContext.setUser({ name, email });
+          navigate('/');
+        }
+        else{
+          setError(res.data)
+        }
       })
       .catch((error) => {
         console.log(error);
