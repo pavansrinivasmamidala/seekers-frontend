@@ -545,7 +545,7 @@ const AddListing = () => {
         </div> */}
        
 
-        <div className="flex mt-12 justify-start align-middle">
+        {/* <div className="flex mt-12 justify-start align-middle">
           <div className="mb-4 flex align-middle justify-between mt-4">
             <label
               htmlFor="name"
@@ -563,7 +563,7 @@ const AddListing = () => {
               className="w-full border border-gray-300 rounded-lg p-2"
             />
           </div>
-        </div>
+        </div> */}
         
          <div className="flex justify-center">
           <button

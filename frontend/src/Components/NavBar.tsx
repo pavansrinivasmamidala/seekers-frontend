@@ -62,7 +62,7 @@ export default function NavBar() {
 
         {user?.name ? (
           <div  className="flex justify-between align-middle border border-gray-300 px-4 py-2 rounded-lg">
-            <span className="text-lg text-red-500 mr-2">{user.name}</span>{" "}
+            <span className="text-lg text-red-600 font-medium mr-2">{user.name}</span>{" "}
             <div className="relative flex align-middle">
               <button onClick={() => setShowDropdown(!showDropdown)}>
                 <img
