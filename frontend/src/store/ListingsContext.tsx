@@ -16,7 +16,7 @@ export interface Listing {
   guestsIncluded: number;
   numberOfReviews: number;
   rating: number;
-  amenities: [string];
+  amenities: string[];
   images: Image;
   hostInfo: Host;
   location: Location;
