@@ -37,4 +37,22 @@ PropertiesRouter.delete("/api/properties", (req, res) => {
   });
 });
 
+PropertiesRouter.put("/api/properties/rating", auth, async (req, res) => {
+  const { id, rating } = req.body;
+  //console.log(parseInt(id), rating);
+  const property = await properties.findOne({ _id: id }).exec();
+  //console.log(property);
+  const { numberOfReviews, rating: currentRating } = property;
+  const newNumberOfReviews = numberOfReviews + 1;
+  const newRating =
+    (currentRating * numberOfReviews + rating) / newNumberOfReviews;
+  console.log(newRating.toFixed(1));
+  await properties.findOneAndUpdate(
+    { _id: id },
+    { numberOfReviews: newNumberOfReviews, rating: newRating }
+  );
+  const updatedProperty = await properties.findOne({ _id: id }).exec();
+  return res.send(updatedProperty);
+});
+
 module.exports = PropertiesRouter;

@@ -75,10 +75,23 @@ const AddListing = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    // Check if the field is part of the nested address object
+    const nameParts = name.split(".");
+    if (nameParts.length === 2 && nameParts[0] === "address") {
+      setFormData((prevState) => ({
+        ...prevState,
+        address: {
+          ...prevState.address,
+          [nameParts[1]]: value,
+        },
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const increment = (fieldName: keyof FormState) => {
@@ -112,6 +125,7 @@ const AddListing = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission here
+    console.log(formData);
   };
 
   return (
@@ -543,7 +557,6 @@ const AddListing = () => {
             className="w-full border border-gray-400 p-2"
           />
         </div> */}
-       
 
         {/* <div className="flex mt-12 justify-start align-middle">
           <div className="mb-4 flex align-middle justify-between mt-4">
@@ -564,8 +577,105 @@ const AddListing = () => {
             />
           </div>
         </div> */}
-        
-         <div className="flex justify-center">
+
+        <div className="flex flex-wrap -mx-4 mt-12">
+          <div className="mb-4 px-4 w-full md:w-1/2">
+            <label
+              htmlFor="building"
+              className="block font-medium text-xl text-gray-700 mb-2"
+            >
+              Building:
+            </label>
+            <input
+              type="text"
+              id="building"
+              name="address.building"
+              placeholder="123 Main St"
+              value={formData.address.building}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg py-2 px-4"
+            />
+          </div>
+
+          <div className="mb-4 px-4 w-full md:w-1/2">
+            <label
+              htmlFor="street"
+              className="block font-medium text-xl text-gray-700 mb-2"
+            >
+              Street:
+            </label>
+            <input
+              type="text"
+              id="street"
+              name="address.street"
+              placeholder="Oakwood Lane"
+              value={formData.address.street}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg py-2 px-4"
+            />
+          </div>
+
+          <div className="my-4 px-4 w-full md:w-1/3">
+            <label
+              htmlFor="city"
+              className="block font-medium text-xl text-gray-700 mb-2"
+            >
+              City:
+            </label>
+            <input
+              type="text"
+              id="city"
+              name="address.city"
+              placeholder="San Francisco"
+              value={formData.address.city}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg py-2 px-4"
+            />
+          </div>
+
+          <div className="my-4 px-4 w-full md:w-1/3">
+            <label
+              htmlFor="state"
+              className="block font-medium text-xl text-gray-700 mb-2"
+            >
+              State:
+            </label>
+            <input
+              type="text"
+              id="state"
+              name="address.state"
+              placeholder="CA"
+              value={formData.address.state}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg py-2 px-2"
+            />
+          </div>
+
+          <div className="my-4 px-4 w-full md:w-1/3">
+            <label
+              htmlFor="country"
+              className="block font-medium text-xl text-gray-700 mb-2"
+            >
+              Country:
+            </label>
+            <select
+              id="country"
+              name="address.country"
+              value={formData.address.country}
+              onChange={handleChange}
+              className="w-full border bg-white border-gray-300 rounded-lg py-[11px] px-4"
+            >
+              <option value="">Select a country</option>
+              <option value="USA">USA</option>
+              <option value="Canada">Canada</option>
+              <option value="UK">UK</option>
+              <option value="Australia">Australia</option>
+              <option value="Japan">Japan</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
           <button
             type="submit"
             className=" self-center text-center py-2 px-4 bg-red-500 text-white rounded-lg mt-8"

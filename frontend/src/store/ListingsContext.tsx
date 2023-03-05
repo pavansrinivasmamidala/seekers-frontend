@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export interface Listing {
   _id: string;
@@ -54,6 +54,7 @@ interface ListingsContextProps {
   listings: Listing[];
   addListing: (listing: Listing) => void;
   removeListing: (id: number) => void;
+  setListings:Dispatch<SetStateAction<Listing[]>>;
 }
 
 export const ListingsContext = createContext<ListingsContextProps>({
@@ -142,6 +143,7 @@ export const ListingsContext = createContext<ListingsContextProps>({
   listings: [],
   addListing: () => {},
   removeListing: () => {},
+  setListings: () => {}
 });
 
 const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
@@ -165,7 +167,7 @@ const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
   };
 
   return (
-    <ListingsContext.Provider value={{ listings, addListing, removeListing }}>
+    <ListingsContext.Provider value={{ listings, addListing, removeListing, setListings }}>
       {children}
     </ListingsContext.Provider>
   );

@@ -19,7 +19,7 @@ const Card: React.FC<Props> = (props) => {
             <span className="font-semibold  text-md">{data.name}</span>
             <div className="flex">
                <span className=" flex align-middle font-medium mx-2">
-                  {data?.rating}
+                  {data?.rating.toFixed(1)}
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

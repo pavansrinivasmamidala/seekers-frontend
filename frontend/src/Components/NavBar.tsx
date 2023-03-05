@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../store/AuthContext";
 import logo from "../assets/logo.png"
 
@@ -11,6 +11,7 @@ export default function NavBar() {
   const authContext = useContext(AuthContext);
 
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
     authContext.setUser({ name: "", email: "" });
@@ -18,8 +19,25 @@ export default function NavBar() {
     navigate('/login');
   };
 
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   return (
-    <header className=" px-40 py-4  bg-white shadow-md">
+    <header className=" px-40 py-4  bg-white shadow-md" ref={dropdownRef}>
       <div className=" flex align-middle items-center  justify-between">
         <div>
           <button onClick={() => navigate("/")}>
@@ -61,7 +79,7 @@ export default function NavBar() {
         </div>
 
         {user?.name ? (
-          <div  className="flex justify-between align-middle border border-gray-300 px-4 py-2 rounded-lg">
+          <div onClick={() => setShowDropdown(!showDropdown)} className=" cursor-pointer flex justify-between align-middle border border-gray-300 px-4 py-2 rounded-lg">
             <span className="text-lg text-red-600 font-medium mr-2">{user.name}</span>{" "}
             <div className="relative flex align-middle">
               <button onClick={() => setShowDropdown(!showDropdown)}>
