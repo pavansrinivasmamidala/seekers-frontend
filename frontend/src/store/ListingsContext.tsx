@@ -21,6 +21,7 @@ export interface Listing {
   hostInfo: Host;
   location: Location;
   address: Address;
+  rules:string;
 }
 
 interface Image {

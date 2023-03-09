@@ -1,6 +1,8 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface FormState {
   id: number;
@@ -39,7 +41,7 @@ interface Host {
 }
 
 const AddListing = () => {
-  const [formData, setFormData] = useState<FormState>({
+  const initialFormData = {
     id: 0,
     name: "",
     description: "",
@@ -69,7 +71,10 @@ const AddListing = () => {
       country: "",
       zipcode: "",
     },
-  });
+  };
+  const [formData, setFormData] = useState<FormState>(initialFormData);
+
+  const navigate = useNavigate();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -125,7 +130,17 @@ const AddListing = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission here
+    // axios
+    //   .post("http://localhost:5500/api/properties", formData, {
+    //     headers: {
+    //       token: localStorage.getItem("token"),
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
     console.log(formData);
+    setFormData(initialFormData);
   };
 
   return (

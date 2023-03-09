@@ -1,9 +1,10 @@
-import { SetStateAction, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Listing, ListingsContext } from "../store/ListingsContext";
 import { Rating } from "@mui/material";
 import { AuthContext } from "../store/AuthContext";
 import axios from "axios";
+import Expand from "./Expand";
 
 const ListingDetails = () => {
   const { listings, setListings } = useContext(ListingsContext);
@@ -14,16 +15,10 @@ const ListingDetails = () => {
   );
   const [rating, setRating] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  let showRatingModifier = false;
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
-  useEffect(() => {
-
-    user ? showRatingModifier = true: showRatingModifier = false;
-  }, [])
 
   const handleRatingChange = async (event: any, newValue: number | null) => {
     if (newValue === null) return;
@@ -63,7 +58,9 @@ const ListingDetails = () => {
   return (
     <div className="container m-auto ">
       <div className="mt-6">
-        <span className="font-bold text-2xl flex align">{data?.name}</span>
+        <span className=" ml-8 font-bold text-2xl flex align">
+          {data?.name}
+        </span>
         <div className="flex mt-4 align-middle justify-evenly">
           <div className="flex flex-col">
             <img
@@ -73,13 +70,14 @@ const ListingDetails = () => {
             />
           </div>
           <div className=" w-[30vw] relative flex border shadow-lg flex-col px-12  rounded-lg my-6 ">
-            <div className="mx-2 my-4 flex justify-between">
-              <span className="font-semibold text-3xl">
-                ${data?.price} CAD night{" "}
+            <div className="my-4 flex justify-start align-middle text-center ">
+              <span className="font-semibold text-2xl">
+                ${data?.price} CAD{" "}
               </span>
+              <span className="text-gray-400 text-2xl ml-3"> night</span>
             </div>
             <div className="flex">
-              <span className=" flex align-middle font-medium mx-2">
+              <span className=" flex align-middle font-medium ">
                 {data?.rating.toFixed(1)}
               </span>
               {user ? (
@@ -94,7 +92,7 @@ const ListingDetails = () => {
                   width="40"
                   height="28"
                   viewBox="0 0 24 24"
-                  className="ml-[-16px]"
+                  className="ml-[-8px]"
                 >
                   <path
                     fill="#FFD700"
@@ -107,9 +105,9 @@ const ListingDetails = () => {
                 {data?.numberOfReviews} reviews{" "}
               </span>
             </div>
-            <div className="my-3 mx-2">
+            <div className="my-3 ">
               <span className="text-gray-600 text-xl">
-                {data?.accommodates} guests - {data?.beds} beds
+                {data?.accommodates} guests - {data?.bedrooms} bedrooms
               </span>
             </div>
 
@@ -134,18 +132,22 @@ const ListingDetails = () => {
               </span>
             </div>
 
-            <div className="flex justify-center align-bottom absolute bottom-0  right-32  ">
-              <button className="px-4 py-2 mb-3 rounded-lg bg-red-500 text-white font-semibold">
-                Contact Host
+            <div className="text-md mt-4">
+              <span className="text-gray-500">Property Type:</span>
+              <span className="ml-2">{data?.propertyType}</span>
+            </div>
+
+            <div className="flex justify-center align-bottom absolute bottom-0   ">
+              <button className="px-4 ml-24 py-2 mb-3 rounded-lg bg-red-500 text-white font-semibold">
+                Reserve
               </button>
             </div>
           </div>
         </div>
 
-        <div></div>
       </div>
 
-      <div className="border rounded-lg p-4 mb-4 mt-8 ease-in-out transition-all duration-300">
+      <div className="border rounded-lg p-4 mb-4 mt-8 ease-in-out transition-all duration-300  ml-8 mr-12">
         <div
           className="flex items-center justify-between cursor-pointer"
           onClick={handleToggle}
@@ -159,13 +161,40 @@ const ListingDetails = () => {
         </div>
         {isOpen && (
           <div className="mt-4 ease-in-out duration-500 transition-all">
-            <div className=" m-auto mt-8 flex justify-between ">
+            <div className="ml-4 mt-8  justify-between ">
               <div>
-                <span className="text-lg m-4 font-semibold ">
+                <span className="text-lg font-semibold ">
                   {data?.propertyType} hosted by {data?.hostInfo.name}
                 </span>
-                <div className="mt-4 flex-col max-h-[300px] overflow-hidden flex max-w-2xl">
-                  <span className=" text-md "> {data?.description}</span>
+                <div className="mt-4 flex-col flex max-w-2xl">
+                  <span className=" text-md ">
+                    <Expand text={data?.description} />
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-4 max-w-2xl">
+                <span className="text-md font-semibold">Rules: </span>
+                <span>{data?.rules}</span>
+              </div>
+
+              <div className="flex justify-start max-w-2xl mt-4">
+                <div className="flex my-4  justify-start align-middle ">
+                  <img
+                    alt="bathroom-logo "
+                    className="w-[29px] mr-2"
+                    src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/null/external-hot-tub-cleaning-kiranshastry-lineal-kiranshastry.png"
+                  />
+                  <span>Bathrooms: {data?.bathrooms}</span>
+                </div>
+
+                <div className="flex my-4 mx-8  justify-start align-middle ">
+                  <img
+                    className="w-[29px] mr-2"
+                    src="https://img.icons8.com/ios/100/null/sleeping-in-bed.png"
+                    alt="bed-logo"
+                  />
+                  <span>Beds: {data?.beds}</span>
                 </div>
               </div>
 
