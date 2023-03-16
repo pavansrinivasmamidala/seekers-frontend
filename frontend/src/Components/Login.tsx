@@ -11,10 +11,10 @@ const Login = () => {
   const authContext = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const {NODE_APP_ENDPOINT} = process.env;
+  const {REACT_APP_API_ENDPOINT} = process.env;
   const handleLogin = () => {
     axios
-      .post(NODE_APP_ENDPOINT +  "/api/login", { email: username, password })
+      .post(REACT_APP_API_ENDPOINT +  "/api/login", { email: username, password })
       .then((res) => {
         if(res.data?.name ){
           console.log(res.data);

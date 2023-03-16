@@ -78,9 +78,11 @@ export const ListingsContext = createContext<ListingsContextProps>({
 const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [displayListings, setDisplayListings] = useState<Listing[]>([]);
-  const {NODE_APP_ENDPOINT} = process.env;
+  const {REACT_APP_API_ENDPOINT} = process.env;
   useEffect(() => {
-    axios.get(NODE_APP_ENDPOINT + "/api/properties").then((res) => {
+
+    console.log(REACT_APP_API_ENDPOINT);
+    axios.get(REACT_APP_API_ENDPOINT + "/api/properties").then((res) => {
       setListings(() => {
         return res.data;
       });
