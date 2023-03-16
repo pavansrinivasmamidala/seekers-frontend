@@ -132,12 +132,12 @@ const ListingDetails = () => {
               </span>
             </div>
 
-            <div className="text-md mt-4">
+            <div className="text-md mt-4 ">
               <span className="text-gray-500">Property Type:</span>
               <span className="ml-2">{data?.propertyType}</span>
             </div>
 
-            <div className="flex justify-center align-bottom absolute bottom-0   ">
+            <div className="flex justify-center align-bottom absolute bottom-0 mt-4  ">
               <button className="px-4 ml-24 py-2 mb-3 rounded-lg bg-red-500 text-white font-semibold">
                 Reserve
               </button>

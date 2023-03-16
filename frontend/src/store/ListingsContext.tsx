@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 export interface Listing {
   _id: string;
@@ -21,7 +27,7 @@ export interface Listing {
   hostInfo: Host;
   location: Location;
   address: Address;
-  rules:string;
+  rules: string;
 }
 
 interface Image {
@@ -53,9 +59,11 @@ interface Location {
 
 interface ListingsContextProps {
   listings: Listing[];
+  displayListings: Listing[];
   addListing: (listing: Listing) => void;
   removeListing: (id: number) => void;
-  setListings:Dispatch<SetStateAction<Listing[]>>;
+  setListings: Dispatch<SetStateAction<Listing[]>>;
+  filterListings: (searchTerm: string) => void;
 }
 
 export const ListingsContext = createContext<ListingsContextProps>({
@@ -142,22 +150,41 @@ export const ListingsContext = createContext<ListingsContextProps>({
   //   },
   // ],
   listings: [],
+  displayListings: [],
   addListing: () => {},
   removeListing: () => {},
-  setListings: () => {}
+  setListings: () => {},
+  filterListings: () => {},
 });
 
 const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
   const [listings, setListings] = useState<Listing[]>([]);
+  const [displayListings, setDisplayListings] = useState<Listing[]>([]);
 
   useEffect(() => {
     axios.get("http://localhost:5500/api/properties").then((res) => {
       setListings(() => {
         return res.data;
       });
-      console.log(res.data)
+      setDisplayListings(() => {
+        return res.data;
+      });
+      console.log(res.data);
     });
   }, []);
+
+  const filterListings = (searchTerm: string) => {
+    setDisplayListings(
+      listings.filter((item) => {
+        const itemName = item.name.toLowerCase();
+        const itemDescription = item.description.toLowerCase();
+        const search = searchTerm.toLowerCase();
+        return (
+          itemName.includes(searchTerm) || itemDescription.includes(search)
+        );
+      })
+    );
+  };
 
   const addListing = (listing: Listing) => {
     setListings([...listings, listing]);
@@ -168,7 +195,16 @@ const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
   };
 
   return (
-    <ListingsContext.Provider value={{ listings, addListing, removeListing, setListings }}>
+    <ListingsContext.Provider
+      value={{
+        listings,
+        displayListings,
+        addListing,
+        removeListing,
+        setListings,
+        filterListings,
+      }}
+    >
       {children}
     </ListingsContext.Provider>
   );

@@ -23,6 +23,11 @@ interface FormState {
   amenities: string[];
   host: Host;
   address: Address;
+  images: Images
+}
+
+interface Images{
+  pictureUrl: string;
 }
 
 interface Address {
@@ -62,6 +67,9 @@ const AddListing = () => {
       name: "",
       address: "",
       contactNo: "",
+    },
+    images: {
+      pictureUrl: ""
     },
     address: {
       building: "",
@@ -114,6 +122,7 @@ const AddListing = () => {
   };
 
   const decrement = (fieldName: keyof FormState) => {
+  
     setFormData((prevState) => {
       const prevValue = prevState[fieldName];
       if (typeof prevValue === "number") {
@@ -130,22 +139,22 @@ const AddListing = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission here
-    // axios
-    //   .post("http://localhost:5500/api/properties", formData, {
-    //     headers: {
-    //       token: localStorage.getItem("token"),
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
+    axios
+      .post("http://localhost:5500/api/properties", formData, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
     console.log(formData);
-    setFormData(initialFormData);
+    //setFormData(initialFormData);
   };
 
   return (
     <div className="overflow-y-scroll w-full">
-      <form onSubmit={handleSubmit} className="p-8 w-3/5 m-auto">
+      <form onSubmit={handleSubmit}  className="p-8 w-3/5 m-auto">
         {/* <div className="mb-4">
           <label htmlFor="id" className="block font-medium text-gray-700 mb-2">
             ID
@@ -290,6 +299,7 @@ const AddListing = () => {
               <button
                 onClick={() => decrement("accommodates")}
                 className="w-8  m-2"
+                type="button"
               >
                 <img src={minus} alt="minus" />
               </button>
@@ -297,6 +307,7 @@ const AddListing = () => {
               <button
                 onClick={() => increment("accommodates")}
                 className="w-8 m-2"
+                type="button"
               >
                 <img src={plus} alt="plus" />
               </button>
@@ -315,11 +326,12 @@ const AddListing = () => {
               <button
                 onClick={() => decrement("bedrooms")}
                 className="w-8  m-2"
+                type="button"
               >
                 <img src={minus} alt="minus" />
               </button>
               <span className="py-2 text-lg">{formData.bedrooms}</span>
-              <button onClick={() => increment("bedrooms")} className="w-8 m-2">
+              <button onClick={() => increment("bedrooms")} type="button" className="w-8 m-2">
                 <img src={plus} alt="plus" />
               </button>
             </div>
@@ -334,11 +346,11 @@ const AddListing = () => {
             </label>
 
             <div className="flex align-middle">
-              <button onClick={() => decrement("beds")} className="w-8  m-2">
+              <button onClick={() => decrement("beds")} type="button" className="w-8  m-2">
                 <img src={minus} alt="minus" />
               </button>
               <span className="py-2 text-lg">{formData.beds}</span>
-              <button onClick={() => increment("beds")} className="w-8 m-2">
+              <button onClick={() => increment("beds")} type="button" className="w-8 m-2">
                 <img src={plus} alt="plus" />
               </button>
             </div>
@@ -358,6 +370,7 @@ const AddListing = () => {
               <button
                 onClick={() => decrement("bathrooms")}
                 className="w-8  m-2"
+                type="button"
               >
                 <img src={minus} alt="minus" />
               </button>
@@ -365,6 +378,7 @@ const AddListing = () => {
               <button
                 onClick={() => increment("bathrooms")}
                 className="w-8 m-2"
+                type="button"
               >
                 <img src={plus} alt="plus" />
               </button>
@@ -501,6 +515,24 @@ const AddListing = () => {
             value={formData.rules}
             onChange={handleChange}
             placeholder="No smoking / No pets / Quiet hours after 10pm"
+            className="w-full border border-gray-400 p-2 rounded-lg"
+          />
+        </div>
+
+        <div className="mb-4 mt-12 flex align-middle">
+          <label
+            htmlFor="images.pictureUrl"
+            className="block font-medium text-gray-700 mb-2 text-lg w-1/5 pt-2"
+          >
+            Image URL:
+          </label>
+          <input
+            type="text"
+            id="images.pictureUrl"
+            name="images.pictureUrl"
+            value={formData.images.pictureUrl}
+            onChange={handleChange}
+            placeholder="Paste Image URL"
             className="w-full border border-gray-400 p-2 rounded-lg"
           />
         </div>
