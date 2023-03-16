@@ -24,11 +24,11 @@ const ListingDetails = () => {
     if (newValue === null) return;
 
     setRating(newValue);
-
+    const {NODE_APP_ENDPOINT} = process.env;
     console.log(localStorage.getItem("token"));
     axios
-      .put(
-        "http://localhost:5500/api/properties/rating",
+      .put(NODE_APP_ENDPOINT +
+        "/api/properties/rating",
         {
           id: id,
           rating: newValue,

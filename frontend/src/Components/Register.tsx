@@ -27,8 +27,9 @@ export default function Register() {
       setError("Passwords do not match");
       return;
     }
+    const {NODE_APP_ENDPOINT} = process.env;
     axios
-      .post("http://localhost:5500/api/register", formData)
+      .post( NODE_APP_ENDPOINT + "/api/register", formData)
       .then((res) => {
         console.log(res);
         if(res.data?.name ){

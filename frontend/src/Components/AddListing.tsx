@@ -138,9 +138,10 @@ const AddListing = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // handle form submission here
+    const {NODE_APP_ENDPOINT} = process.env;
+    console.log(NODE_APP_ENDPOINT);
     axios
-      .post("http://localhost:5500/api/properties", formData, {
+      .post( NODE_APP_ENDPOINT +  "/api/properties", formData, {
         headers: {
           token: localStorage.getItem("token"),
         },
