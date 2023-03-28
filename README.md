@@ -6,6 +6,8 @@ Project Name: Travel Nest
 
 Team: Seekers
 
+Project Deployment: [hhttps://seekers-frontend.vercel.app/](https://seekers-frontend.vercel.app/)
+
 Team Members:
 Ruchika Kalyankar,
 Merin Joe Chandy,
