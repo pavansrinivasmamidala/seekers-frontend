@@ -99,6 +99,14 @@ const AddListing = () => {
           [nameParts[1]]: value,
         },
       }));
+    } if (nameParts.length === 2 && nameParts[0] === "images") {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: {
+          ...prevState.images,
+          [nameParts[1]]: value,
+        },
+      }));
     } else {
       setFormData((prevState) => ({
         ...prevState,
