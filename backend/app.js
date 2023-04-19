@@ -17,6 +17,7 @@ const originList = [
   "https://seekers-frontend.vercel.app",
   "https://angular-seekers-m9pmk22ni-pavansrinivasmamidala.vercel.app/",
   "https://angular-seekers.vercel.app/",
+  "https://angular-seekers.vercel.app"
 ];
 
 const corsOptions = {
