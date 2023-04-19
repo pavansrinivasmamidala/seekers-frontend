@@ -23,10 +23,10 @@ interface FormState {
   amenities: string[];
   host: Host;
   address: Address;
-  images: Images
+  images: Images;
 }
 
-interface Images{
+interface Images {
   pictureUrl: string;
 }
 
@@ -69,7 +69,7 @@ const AddListing = () => {
       contactNo: "",
     },
     images: {
-      pictureUrl: ""
+      pictureUrl: "",
     },
     address: {
       building: "",
@@ -99,7 +99,8 @@ const AddListing = () => {
           [nameParts[1]]: value,
         },
       }));
-    } if (nameParts.length === 2 && nameParts[0] === "images") {
+    }
+    if (nameParts.length === 2 && nameParts[0] === "images") {
       setFormData((prevState) => ({
         ...prevState,
         images: {
@@ -130,7 +131,6 @@ const AddListing = () => {
   };
 
   const decrement = (fieldName: keyof FormState) => {
-  
     setFormData((prevState) => {
       const prevValue = prevState[fieldName];
       if (typeof prevValue === "number") {
@@ -146,10 +146,10 @@ const AddListing = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const {REACT_APP_API_ENDPOINT} = process.env;
+    const { REACT_APP_API_ENDPOINT } = process.env;
     console.log(REACT_APP_API_ENDPOINT);
     axios
-      .post( REACT_APP_API_ENDPOINT +  "/api/properties", formData, {
+      .post(REACT_APP_API_ENDPOINT + "/api/properties", formData, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -158,26 +158,12 @@ const AddListing = () => {
         console.log(res);
       });
     console.log(formData);
-    //setFormData(initialFormData);
+
   };
 
   return (
     <div className="overflow-y-scroll w-full">
-      <form onSubmit={handleSubmit}  className="p-8 w-3/5 m-auto">
-        {/* <div className="mb-4">
-          <label htmlFor="id" className="block font-medium text-gray-700 mb-2">
-            ID
-          </label>
-          <input
-            type="number"
-            id="id"
-            name="id"
-            value={formData.id}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
+      <form onSubmit={handleSubmit} className="p-8 w-3/5 m-auto">
         <div className="mb-4 flex align-middle justify-between mt-4">
           <label
             htmlFor="name"
@@ -195,23 +181,6 @@ const AddListing = () => {
             className="w-full border border-gray-300 rounded-lg p-2"
           />
         </div>
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="propertyType"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Property Type
-          </label>
-          <input
-            type="text"
-            id="propertyType"
-            name="propertyType"
-            value={formData.propertyType}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
 
         <div className="flex justify-between align-middle mt-12">
           <div className="mb-4 flex align-middle justify-start">
@@ -235,14 +204,6 @@ const AddListing = () => {
               <option value="Condo">Condo</option>
               <option value="Villa">Villa</option>
             </select>
-            {/* <input
-            type="text"
-            id="propertyType"
-            name="propertyType"
-            value={formData.propertyType}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg p-2"
-          /> */}
           </div>
 
           <div className="mb-4 flex">
@@ -267,15 +228,6 @@ const AddListing = () => {
                 Strict 14 Days with Grace Period
               </option>
             </select>
-
-            {/* <input
-            type="text"
-            id="cancellationPolicy"
-            name="cancellationPolicy"
-            value={formData.cancellationPolicy}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          /> */}
           </div>
         </div>
         <div className="mb-4 mt-8">
@@ -340,7 +292,11 @@ const AddListing = () => {
                 <img src={minus} alt="minus" />
               </button>
               <span className="py-2 text-lg">{formData.bedrooms}</span>
-              <button onClick={() => increment("bedrooms")} type="button" className="w-8 m-2">
+              <button
+                onClick={() => increment("bedrooms")}
+                type="button"
+                className="w-8 m-2"
+              >
                 <img src={plus} alt="plus" />
               </button>
             </div>
@@ -355,11 +311,19 @@ const AddListing = () => {
             </label>
 
             <div className="flex align-middle">
-              <button onClick={() => decrement("beds")} type="button" className="w-8  m-2">
+              <button
+                onClick={() => decrement("beds")}
+                type="button"
+                className="w-8  m-2"
+              >
                 <img src={minus} alt="minus" />
               </button>
               <span className="py-2 text-lg">{formData.beds}</span>
-              <button onClick={() => increment("beds")} type="button" className="w-8 m-2">
+              <button
+                onClick={() => increment("beds")}
+                type="button"
+                className="w-8 m-2"
+              >
                 <img src={plus} alt="plus" />
               </button>
             </div>
@@ -411,105 +375,6 @@ const AddListing = () => {
           </div>
         </div>
 
-        {/* <div className="mb-4">
-          <label htmlFor="id" className="block font-medium text-gray-700 mb-2">
-            GuestsIncluded
-          </label>
-          <input
-            type="number"
-            id="guestsIncluded"
-            name="guestsIncluded"
-            value={formData.guestsIncluded}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Space
-          </label>
-          <input
-            type="text"
-            id="space"
-            name="space"
-            value={formData.space}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Notes
-          </label>
-          <input
-            type="text"
-            id="notes"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Transit
-          </label>
-          <input
-            type="text"
-            id="transit"
-            name="transit"
-            value={formData.transit}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Access
-          </label>
-          <input
-            type="text"
-            id="access"
-            name="access"
-            value={formData.access}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            Interaction
-          </label>
-          <input
-            type="text"
-            id="interaction"
-            name="interaction"
-            value={formData.interaction}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
         <div className="mb-4 mt-12 flex align-middle">
           <label
             htmlFor="cancellationPolicy"
@@ -545,94 +410,6 @@ const AddListing = () => {
             className="w-full border border-gray-400 p-2 rounded-lg"
           />
         </div>
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            LastScraped
-          </label>
-          <input
-            type="text"
-            id="lastScraped"
-            name="lastScraped"
-            value={formData.lastScraped}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            ListingUrl
-          </label>
-          <input
-            type="text"
-            id="listingUrl"
-            name="listingUrl"
-            value={formData.listingUrl}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            numberOfReviews
-          </label>
-          <input
-            type="number"
-            id="numberOfReviews"
-            name="numberOfReviews"
-            value={formData.numberOfReviews}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label
-            htmlFor="cancellationPolicy"
-            className="block font-medium text-gray-700 mb-2"
-          >
-            rating
-          </label>
-          <input
-            type="number"
-            id="rating"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            className="w-full border border-gray-400 p-2"
-          />
-        </div> */}
-
-        {/* <div className="flex mt-12 justify-start align-middle">
-          <div className="mb-4 flex align-middle justify-between mt-4">
-            <label
-              htmlFor="name"
-              className="block font-medium text-xl text-gray-700 mr-4 pt-1"
-            >
-              Host Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Cozy Cottage in the Woods"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2"
-            />
-          </div>
-        </div> */}
 
         <div className="flex flex-wrap -mx-4 mt-12">
           <div className="mb-4 px-4 w-full md:w-1/2">

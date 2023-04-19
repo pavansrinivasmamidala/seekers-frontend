@@ -12,7 +12,7 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const originList = ["http://localhost:3000", "https://seekers-frontend.vercel.app"];
+const originList = ["http://localhost:3000", "https://seekers-frontend.vercel.app", "https://angular-seekers-m9pmk22ni-pavansrinivasmamidala.vercel.app/","https://angular-seekers.vercel.app/"];
 
 const corsOptions = {
   origin: (origin, callback) => {
