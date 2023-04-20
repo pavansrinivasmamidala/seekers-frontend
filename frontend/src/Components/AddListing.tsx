@@ -1,8 +1,9 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useContext } from "react";
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ListingsContext } from "../store/ListingsContext";
 
 interface FormState {
   id: number;
@@ -83,6 +84,7 @@ const AddListing = () => {
   const [formData, setFormData] = useState<FormState>(initialFormData);
 
   const navigate = useNavigate();
+  const postAddition = useContext(ListingsContext).getAndSetListings;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -158,7 +160,8 @@ const AddListing = () => {
         console.log(res);
       });
     console.log(formData);
-
+    postAddition();
+      navigate('/');
   };
 
   return (

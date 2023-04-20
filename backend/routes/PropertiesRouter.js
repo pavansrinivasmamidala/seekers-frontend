@@ -31,7 +31,9 @@ PropertiesRouter.put("/api/properties", auth, async (req, res) => {
 
 PropertiesRouter.delete("/api/properties", (req, res) => {
   const { propertyId } = req.body;
-  properties.deleteOne({ id: propertyId }, (err) => {
+  const propertyIdNumber = parseInt(propertyId);
+
+  properties.deleteOne({ id: propertyIdNumber.toString() }, (err) => {
     if (err) throw err;
     res.send("Deleted Successfully!");
   });

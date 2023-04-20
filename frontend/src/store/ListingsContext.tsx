@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, {
   createContext,
@@ -64,6 +65,7 @@ interface ListingsContextProps {
   removeListing: (id: number) => void;
   setListings: Dispatch<SetStateAction<Listing[]>>;
   filterListings: (searchTerm: string) => void;
+  getAndSetListings: () => void;
 }
 
 export const ListingsContext = createContext<ListingsContextProps>({
@@ -73,15 +75,15 @@ export const ListingsContext = createContext<ListingsContextProps>({
   removeListing: () => {},
   setListings: () => {},
   filterListings: () => {},
+  getAndSetListings: () => {}
 });
 
 const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [displayListings, setDisplayListings] = useState<Listing[]>([]);
   const {REACT_APP_API_ENDPOINT} = process.env;
-  useEffect(() => {
-
-    console.log(REACT_APP_API_ENDPOINT);
+  
+  const getAndSetListings = () =>{
     axios.get(REACT_APP_API_ENDPOINT + "/api/properties").then((res) => {
       setListings(() => {
         return res.data;
@@ -91,7 +93,13 @@ const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
       });
       console.log(res.data);
     });
-  }, []);
+  }
+  
+  useEffect(() => {
+    console.log(REACT_APP_API_ENDPOINT);
+    getAndSetListings();
+  }, [getAndSetListings]);
+
 
   const filterListings = (searchTerm: string) => {
     setDisplayListings(
@@ -123,6 +131,7 @@ const ListingsContextProvider: React.FC<{ children: any }> = ({ children }) => {
         removeListing,
         setListings,
         filterListings,
+        getAndSetListings
       }}
     >
       {children}

@@ -14,7 +14,7 @@ const ListingDetails = () => {
     (listing) => listing._id.toString() === id
   );
   const [rating, setRating] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -24,11 +24,11 @@ const ListingDetails = () => {
     if (newValue === null) return;
 
     setRating(newValue);
-    const {REACT_APP_API_ENDPOINT} = process.env;
+    const { REACT_APP_API_ENDPOINT } = process.env;
     console.log(localStorage.getItem("token"));
     axios
-      .put(REACT_APP_API_ENDPOINT +
-        "/api/properties/rating",
+      .put(
+        REACT_APP_API_ENDPOINT + "/api/properties/rating",
         {
           id: id,
           rating: newValue,
@@ -144,7 +144,6 @@ const ListingDetails = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       <div className="border rounded-lg p-4 mb-4 mt-8 ease-in-out transition-all duration-300  ml-8 mr-12">
@@ -164,7 +163,7 @@ const ListingDetails = () => {
             <div className="ml-4 mt-8  justify-between ">
               <div>
                 <span className="text-lg font-semibold ">
-                  {data?.propertyType} hosted by {data?.hostInfo.name}
+                  {data?.propertyType} hosted by {data?.hostInfo?.name}
                 </span>
                 <div className="mt-4 flex-col flex max-w-2xl">
                   <span className=" text-md ">
@@ -198,14 +197,18 @@ const ListingDetails = () => {
                 </div>
               </div>
 
-              <div className="my-4 max-w-lg ">
-                <span className="font-semibold">Ameneties:</span>
-                <ul className=" columns-2">
-                  {data?.amenities.map((item) => {
-                    return <li>{item}</li>;
-                  })}
-                </ul>
-              </div>
+              {data?.amenities.length ? (
+                <div className="my-4 max-w-lg ">
+                  <span className="font-semibold">Ameneties:</span>
+                  <ul className=" columns-2">
+                    {data?.amenities.map((item) => {
+                      return <li>{item}</li>;
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
         )}
